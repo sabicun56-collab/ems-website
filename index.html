@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kushtia Government College - EMS</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f0f8ff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px;
+        }
+        /* Page Styles */
+        .page {
+            display: none;
+            padding: 30px 20px;
+        }
+        .page.active {
+            display: block;
+        }
+        
+        /* 1. Login Page Styles */
+        .login-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-logo img {
+            width: 100px;
+            height: auto;
+        }
+        .login-title {
+            text-align: center;
+            color: #1a5276;
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: #2980b9;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #1f618d;
+        }
+        .copyright {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 25px;
+        }
+        .copyright span {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        /* 2. Dashboard / Menu Styles */
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .menu-btn {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu-btn:hover {
+            background-color: #16a085;
+        }
+
+        /* 3. Academic Result Form Styles */
+        .section-title {
+            color: #1a5276;
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #1abc9c;
+            padding-bottom: 5px;
+        }
+        .label-text {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .radio-group {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 4. Transcript / Marksheet Page Styles */
+        .transcript-container {
+            background: white;
+            padding: 15px;
+            font-size: 12px;
+        }
+        .transcript-header {
+            text-align: center;
+            border-bottom: 2px solid #27ae60;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .transcript-header h2 {
+            color: #16a085;
+            font-size: 16px;
+        }
+        .transcript-header h3 {
+            color: #27ae60;
+            font-size: 14px;
+        }
+        .info-table, .mark-table, .grading-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        .info-table td, .mark-table th, .mark-table td, .grading-table th, .grading-table td {
+            border: 1px solid #333;
+            padding: 5px;
+            text-align: center;
+        }
+        .mark-table th {
+            background-color: #f2f2f2;
+            font-size: 11px;
+        }
+        .back-btn {
+            background-color: #7f8c8d;
+            margin-top: 10px;
+        }
+        .back-btn:hover {
+            background-color: #626567;
+        }
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- PAGE 1: EMS Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="login-logo">
+            <!-- লোগো ইমেজ বা আইকন -->
+            <h3 style="color: #1a5276; font-size: 14px;">পড় তোমার প্রভুর নামে</h3>
+            <div style="font-size: 40px; margin: 10px 0;">📖</div>
+            <h4 style="font-size: 12px; color: #27ae60;">स्थापित-১৯৪৭</h4>
+            <h5 style="font-size: 11px; color: #1a5276;">কুষ্টিয়া সরকারি কলেজ, কুষ্টিয়া</h5>
+        </div>
+        <h3 class="login-title">Login to EMS</h3>
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="text" id="userId" class="form-control" placeholder="User ID" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn">Sign In</button>
+            <div id="loginError" class="error-msg"></div>
+        </form>
+        <div class="copyright">
+            Copyright © 2026 All rights reserved <b>eShiksa</b>
+        </div>
+    </div>
+
+    <!-- PAGE 2: Admin Dashboard / Menu Panel -->
+    <div id="dashboardPage" class="page">
+        <div style="text-align: right; margin-bottom: 10px;">
+            <button onclick="logout()" style="background: none; border: none; color: #e74c3c; cursor: pointer; font-weight: bold;">Logout</button>
+        </div>
+        <div class="menu-list">
+            <button class="menu-btn" onclick="goToAcademicResult()">🎓 Academic Result</button>
+            <button class="menu-btn">📋 Attendance</button>
+            <button class="menu-btn">🚪 Admission</button>
+            <button class="menu-btn">💳 Admit Card</button>
+            <button class="menu-btn">🖨️ Receipts Print</button>
+            <button class="menu-btn">👤 Profile</button>
+            <button class="menu-btn">🔄 Application Form Reprint</button>
+            <button class="menu-btn">✏️ Improvement/Retake Form Fillup</button>
+            <button class="menu-btn">💳 Online Payment through Sonali Pay</button>
+            <button class="menu-btn">📄 Apply for Application Form</button>
+            <button class="menu-btn">৳ Tuition Fee</button>
+        </div>
+    </div>
+
+    <!-- PAGE 3: Academic Result Search Form -->
+    <div id="resultFormPage" class="page">
+        <h3 class="section-title">Academic Result</h3>
+        <div class="form-group">
+            <label class="label-text">Exam Level</label>
+            <input type="text" class="form-control" value="HSC" readonly>
+        </div>
+        <div class="form-group">
+            <label class="label-text">Department/Group</label>
+            <input type="text" class="form-control" value="HSC - Science" readonly>
+        </div>
+        <div class="form-group">
+            <label class="label-text">Session</label>
+            <input type="text" class="form-control" value="2025-2026" readonly>
+        </div>
+        <div class="form-group">
+            <label class="label-text">Exam Name</label>
+            <input type="text" class="form-control" value="Pro Test Exam (2nd Year HSC - Science)" readonly>
+        </div>
+        <div class="radio-group">
+            <input type="radio" id="printOpt" checked>
+            <label for="printOpt" style="font-size: 14px;">Print</label>
+        </div>
+        <div class="form-group">
+            <input type="text" id="rollInput" class="form-control" placeholder="Enter Roll Number (e.g. 125261149)" value="125261149">
+        </div>
+        <button type="button" class="btn" onclick="showTranscript()">Transcript</button>
+        <button type="button" class="btn back-btn" onclick="backToDashboard()">Back</button>
+        <div id="rollError" class="error-msg"></div>
+    </div>
+
+    <!-- PAGE 4: Official Academic Transcript (Mark Sheet) -->
+    <div id="transcriptPage" class="page">
+        <div class="transcript-container">
+            <div class="transcript-header">
+                <h2>কুষ্টিয়া সরকারি কলেজ, কুষ্টিয়া</h2>
+                <h3>KUSHTIA GOVERNMENT COLLEGE, KUSHTIA</h3>
+                <p style="font-size: 10px;">ESTABLISHED 1947</p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                <table class="info-table" style="width: 58%;">
+                    <tr><td><b>Class Roll</b></td><td>125261149</td></tr>
+                    <tr><td><b>Name</b></td><td>ABDULLAH AL HOSSAIN</td></tr>
+                    <tr><td><b>Academic Year</b></td><td>2</td></tr>
+                    <tr><td><b>Group</b></td><td>HSC - Science</td></tr>
+                    <tr><td><b>Section</b></td><td></td></tr>
+                    <tr><td><b>Session</b></td><td>2025-2026</td></tr>
+                </table>
+                <table class="grading-table" style="width: 38%;">
+                    <tr><th>Letter Grade</th><th>Mark Interval</th><th>Grade Point</th></tr>
+                    <tr><td>A+</td><td>80 - 100</td><td>5.00</td></tr>
+                    <tr><td>A</td><td>70 - 79</td><td>4.00</td></tr>
+                    <tr><td>A-</td><td>60 - 69</td><td>3.50</td></tr>
+                    <tr><td>B</td><td>50 - 59</td><td>3.00</td></tr>
+                    <tr><td>C</td><td>40 - 49</td><td>2.00</td></tr>
+                    <tr><td>D</td><td>33 - 39</td><td>1.00</td></tr>
+                    <tr><td>F</td><td>0 - 32</td><td>0.00</td></tr>
+                </table>
+            </div>
+
+            <div style="text-align: center; font-weight: bold; font-size: 13px; margin: 5px 0; color: #1a5276;">
+                Academic Transcript<br>
+                <span style="font-size: 11px; font-weight: normal;">Pro Test Exam (2nd Year HSC - Science)</span>
+            </div>
+
+            <table class="mark-table">
+                <tr>
+                    <th>Subject Name</th>
+                    <th>CQ</th>
+                    <th>MCQ</th>
+                    <th>Prac.</th>
+                    <th>Term Total (Converted)</th>
+                    <th>CT</th>
+                    <th>HT</th>
+                    <th>Exam Total (CQ + HT + CT)</th>
+                    <th>Exam Highest</th>
+                    <th>Grade</th>
+                    <th>GP</th>
+                    <th>GPA (Without Additional Subject)</th>
+                    <th>GPA</th>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Bangla</td>
+                    <td>60</td><td>20</td><td></td><td>80</td><td>0</td><td>0</td><td>80</td><td>90</td><td>A+</td><td>5.00</td>
+                    <td rowspan="6" style="vertical-align: middle; font-weight: bold; font-size: 14px;">5.00</td>
+                    <td rowspan="7" style="vertical-align: middle; font-weight: bold; font-size: 16px; color: #27ae60;">5.00</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">English</td>
+                    <td>79</td><td></td><td></td><td>79</td><td>0</td><td>79</td><td>88</td><td>A</td><td>4.00</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Botany (combined)</td>
+                    <td>45</td><td>20</td><td>21</td><td>86</td><td>0</td><td>86</td><td>92</td><td>A+</td><td>5.00</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Physics</td>
+                    <td>42</td><td>24</td><td>22</td><td>88</td><td>0</td><td>88</td><td>92</td><td>A+</td><td>5.00</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Chemistry</td>
+                    <td>45</td><td>23</td><td>20</td><td>88</td><td>0</td><td>88</td><td>95</td><td>A+</td><td>5.00</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">ICT</td>
+                    <td>45</td><td>22</td><td>22</td><td>89</td><td>0</td><td>89</td><td>89</td><td>A+</td><td>5.00</td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align: right;"><b>Total (Without additional subject and including combined detail)</b></td>
+                    <td colspan="5" style="text-align: center; font-weight: bold;">510</td>
+                </tr>
+            </table>
+
+            <div style="font-weight: bold; margin-bottom: 5px;">Additional Subject:</div>
+            <table class="mark-table">
+                <tr>
+                    <td style="text-align: left; width: 30%;">Higher Math</td>
+                    <td>45</td><td>24</td><td>24</td><td>93</td><td>0</td><td>93</td><td>96</td><td>A+</td><td>5.00</td>
+                    <td style="width: 15%; font-weight: bold;">3</td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align: right;"><b>Total Mark</b></td>
+                    <td colspan="5" style="text-align: center; font-weight: bold;">603</td>
+                </tr>
+            </table>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px;">
+                <div><b>Merit Position :</b> 25<br><b>Result :</b> Pass</div>
+                <div>
+                    <table class="info-table" style="width: 220px;">
+                        <tr><th colspan="4" style="background: #f2f2f2;">Attendance Summary</th></tr>
+                        <tr><td>Total: 0</td><td>Present: 0</td><td>Late: 0</td><td>Absent: 0 (0%)</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 15px;">
+                <p style="font-family: cursive; font-size: 14px;">Latif</p>
+                <p><b>DR. MOHD. ADDUL LATIF</b><br>Principal<br>Kushtia Govt. College</p>
+            </div>
+
+            <button type="button" class="btn back-btn" onclick="goToAcademicResult()" style="margin-top: 20px;">Back to Search</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Navigation Functions
+    function switchPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    // 1. Login Handler
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const userId = document.getElementById('userId').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const errorDiv = document.getElementById('loginError');
+
+        // আপনার নির্দেশনা অনুযায়ী আইডি ও পাসওয়ার্ড ছোট হাতের "কেজি সি স্টুডেন্ট" (অথবা kgc student)
+        if (userId === 'kgc student' && password === 'kgc student') {
+            errorDiv.textContent = '';
+            switchPage('dashboardPage');
+        } else {
+            errorDiv.textContent = 'ভুল User ID অথবা Password! সঠিক তথ্য দিন: "kgc student"';
+        }
+    });
+
+    function logout() {
+        document.getElementById('userId').value = '';
+        document.getElementById('password').value = '';
+        switchPage('loginPage');
+    }
+
+    function goToAcademicResult() {
+        switchPage('resultFormPage');
+    }
+
+    function backToDashboard() {
+        switchPage('dashboardPage');
+    }
+
+    // 2. Transcript Display Handler
+    function showTranscript() {
+        const rollInput = document.getElementById('rollInput').value.trim();
+        const rollError = document.getElementById('rollError');
+
+        // আপনার নির্দিষ্ট রোল নম্বর চেক করা হচ্ছে
+        if (rollInput === '125261149') {
+            rollError.textContent = '';
+            switchPage('transcriptPage');
+        } else {
+            rollError.textContent = 'সঠিক রোল নম্বর দিন (যেমন: 125261149)';
+        }
+    }
+</script>
+
+</body>
+</html>
